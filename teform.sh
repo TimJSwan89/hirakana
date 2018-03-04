@@ -10,6 +10,9 @@ while read verb; do
 	body="${verb:0:${#verb}-2}"
 	lc="${body: -1}"
 	head="${body:0:${#body}-1}"
+	if [[ "${#body}" == "1" ]] ; then
+		head="$body"
+	fi
 	if [[ $lc = "り" ]] || [[ $lc = "い" ]] || [[ $lc = "ち" ]] ; then
 		suf="って"
 	else
@@ -19,9 +22,14 @@ while read verb; do
 			suf=""
 			if [[ "$lc" = "き" ]] ; then
 				suf="い"
+				if [[ "$body" = "きき" ]] ; then
+					suf=""
+				fi
+				if [[ "$body" = "いき" ]] ; then
+                                        suf="って"
+                                fi
 			fi
 			suf="$suf""て"
-			head="$body"
         	fi
 	fi
 	printf "$space$verb => $head$suf\n"
